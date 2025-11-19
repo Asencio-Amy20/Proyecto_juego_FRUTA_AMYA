@@ -1,6 +1,6 @@
 # Proyecto Juego FRUTA AMYA
 
-Este es un pequeño juego de Python creado con [Menciona la librería que usaste, ej: Pygame].
+Este es un pequeño juego de Python creado con Pygame.
 
 ## Cómo jugar
 1. Asegúrate de tener Python instalado.
