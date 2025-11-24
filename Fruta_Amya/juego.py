@@ -11,21 +11,42 @@ class Juego:
         self.reloj = pygame.time.Clock()
         self.jugador = Jugador(400, 300)
         self.fruta = Fruta()
-        self.obstaculo = Obstaculo()
+        self.obstaculos = [Obstaculo()]  
+        self.velocidad_jugador = 5  
         self.puntaje = 0
         self.ejecutando = True
 
     def checar_colisiones(self):
-        jugador_rect = pygame.Rect(self.jugador.x, self.jugador.y, 60, 60)
-        fruta_rect = pygame.Rect(self.fruta.x, self.fruta.y, 40, 40)
-        obstaculo_rect = pygame.Rect(self.obstaculo.x, self.obstaculo.y, 70, 70)
-
-        if jugador_rect.colliderect(fruta_rect):
-            self.puntaje += 1
-            self.fruta = Fruta()  # Nueva fruta
-
+    jugador_rect = pygame.Rect(self.jugador.x, self.jugador.y, 60, 60)
+    fruta_rect = pygame.Rect(self.fruta.x, self.fruta.y, 40, 40)
+    
+    if jugador_rect.colliderect(fruta_rect):
+        self.puntaje += 1
+        self.fruta = Fruta()  
+        
+        # Cada 5 frutas: acelerar todos los obstáculos
+        if self.puntaje % 5 == 0:
+            for obstaculo in self.obstaculos:
+                obstaculo.velocidad += 0.5
+            print(f"¡Nivel subió! Velocidad obstáculos: {self.obstaculos[0].velocidad}")
+        
+        # Cada 10 frutas: agregar un nuevo obstáculo
+        if self.puntaje % 10 == 0 and self.puntaje > 0:
+            nuevo_obstaculo = Obstaculo()
+            self.obstaculos.append(nuevo_obstaculo)
+            print(f"¡Nuevo obstáculo! Total: {len(self.obstaculos)}")
+        
+        # Cada 20 frutas: el jugador se vuelve más lento (cansancio)
+        if self.puntaje % 20 == 0 and self.puntaje > 0:
+            self.velocidad_jugador = max(2, self.velocidad_jugador - 0.5)
+            print(f"¡Cansancio! Velocidad jugador: {self.velocidad_jugador}")
+    
+    # Verificar colisión con todos los obstáculos
+    for obstaculo in self.obstaculos:
+        obstaculo_rect = pygame.Rect(obstaculo.x, obstaculo.y, 70, 70)
         if jugador_rect.colliderect(obstaculo_rect):
             self.ejecutando = False
+            break
 
     def iniciar(self):
         fuente = pygame.font.Font(None, 36)
@@ -55,3 +76,4 @@ class Juego:
             self.reloj.tick(30)
 
         pygame.quit()
+
