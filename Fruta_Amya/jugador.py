@@ -30,3 +30,4 @@ class Jugador:
     def dibujar(self, pantalla):
         pantalla.blit(self.imagen, (self.x, self.y))
 
+
