@@ -57,7 +57,7 @@ class Juego:
                     self.ejecutando = False
 
             teclas = pygame.key.get_pressed()
-            self.jugador.mover(teclas)
+            self.jugador.mover(teclas, self.velocidad_jugador)
             self.checar_colisiones()
             for obstaculo in self.obstaculos:
                 obstaculo.seguir_jugador(self.jugador.x, self.jugador.y)
@@ -74,11 +74,18 @@ class Juego:
 
             texto = fuente.render(f"Puntaje: {self.puntaje}", True, (0, 0, 0))
             self.pantalla.blit(texto, (10, 10))
+            
+            texto_obstaculos = fuente.render(f"Obstaculos: {len(self.obstaculos)}", True, (255, 0, 0))
+            self.pantalla.blit(texto_obstaculos, (10, 50))
+            
+            texto_velocidad = fuente.render(f"Velocidad: {self.velocidad_jugador:.1f}", True, (0, 0, 255))
+            self.pantalla.blit(texto_velocidad, (650, 10))
 
             pygame.display.update()
             self.reloj.tick(30)
 
         pygame.quit()
+
 
 
 
