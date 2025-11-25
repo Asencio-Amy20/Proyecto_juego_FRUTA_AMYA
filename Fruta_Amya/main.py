@@ -1,34 +1,56 @@
 import pygame
-from juego import Juego
-from menu import Menu
+import sys
+from jugador import Jugador
+from fruta import Fruta
+from obstaculo import Obstaculo
 
-def main():
-    pygame.init()
+pygame.init()
+
+ANCHO, ALTO = 800, 600
+pantalla = pygame.display.set_mode((ANCHO, ALTO))
+pygame.display.set_caption("Juego del Pingüino vs Tigre")
+
+clock = pygame.time.Clock()
+
+# Objetos
+jugador = Jugador(400, 300)
+fruta = Fruta()
+enemigo = Obstaculo()  # el tigre
+
+puntos = 0
+
+
+while True:
+    for evento in pygame.event.get():
+        if evento.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+    teclas = pygame.key.get_pressed()
+    jugador.mover(teclas)
+
     
-    pantalla = pygame.display.set_mode((800, 600))
-    pygame.display.set_caption("Fruta Manía")
+    jx, jy = jugador.obtener_pos()
+    enemigo.seguir_jugador(jx, jy)
 
-    menu = Menu(pantalla)
-    ejecutando = True
+    
+    fx, fy = fruta.obtener_pos()
+    if abs(jx - fx) < 40 and abs(jy - fy) < 40:
+        puntos += 1
+        fruta = Fruta()  
 
-    while ejecutando:
-        opcion = menu.mostrar()
+   
+    pantalla.fill((50, 150, 200))
 
-        if opcion == "jugar":
-            juego = Juego(pantalla)   # IMPORTANTE: pasar pantalla
-            resultado = juego.iniciar()  # Puede devolver "menu" si lo deseas
+    
+    jugador.dibujar(pantalla)
+    fruta.dibujar(pantalla)
+    enemigo.dibujar(pantalla)
 
-        elif opcion == "records":
-            menu.mostrar_records()
+    
+    fuente = pygame.font.SysFont(None, 40)
+    texto = fuente.render(f"Puntos: {puntos}", True, (255, 255, 255))
+    pantalla.blit(texto, (10, 10))
 
-        elif opcion == "controles":
-            menu.mostrar_controles()
-
-        elif opcion == "salir":
-            ejecutando = False
-
-    pygame.quit()
-
-
-if __name__ == "__main__":
-    main()
+    pygame.display.flip()
+    clock.tick(60)
