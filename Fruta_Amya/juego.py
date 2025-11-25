@@ -2,6 +2,7 @@ import pygame
 from jugador import Jugador
 from fruta import Fruta
 from obstaculo import Obstaculo
+from powerup import PowerUp
 
 class Juego:
     def __init__(self):
@@ -13,6 +14,12 @@ class Juego:
         self.fruta = Fruta()
         self.obstaculos = [Obstaculo()]  
         self.velocidad_jugador = 5  
+        self.powerups = []
+        self.tiempo_spawn_powerup = 0
+        self.powerup_activo = None
+        self.tiempo_powerup = 0
+        self.velocidad_obstaculos_original = 2
+        self.tiene_escudo = False
         self.puntaje = 0
         self.ejecutando = True
 
@@ -85,6 +92,7 @@ class Juego:
             self.reloj.tick(30)
 
         pygame.quit()
+
 
 
 
