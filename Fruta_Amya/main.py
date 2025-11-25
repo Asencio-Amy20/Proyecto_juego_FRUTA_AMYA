@@ -12,13 +12,12 @@ pygame.display.set_caption("Juego del Pingüino vs Tigre")
 
 clock = pygame.time.Clock()
 
-# Objetos
+
 jugador = Jugador(400, 300)
 fruta = Fruta()
-enemigo = Obstaculo()  # el tigre
+enemigo = Obstaculo()
 
 puntos = 0
-
 
 while True:
     for evento in pygame.event.get():
@@ -29,25 +28,20 @@ while True:
     teclas = pygame.key.get_pressed()
     jugador.mover(teclas)
 
-    
     jx, jy = jugador.obtener_pos()
     enemigo.seguir_jugador(jx, jy)
 
-    
     fx, fy = fruta.obtener_pos()
     if abs(jx - fx) < 40 and abs(jy - fy) < 40:
         puntos += 1
-        fruta = Fruta()  
+        fruta = Fruta()
 
-   
     pantalla.fill((50, 150, 200))
 
-    
     jugador.dibujar(pantalla)
     fruta.dibujar(pantalla)
     enemigo.dibujar(pantalla)
 
-    
     fuente = pygame.font.SysFont(None, 40)
     texto = fuente.render(f"Puntos: {puntos}", True, (255, 255, 255))
     pantalla.blit(texto, (10, 10))
