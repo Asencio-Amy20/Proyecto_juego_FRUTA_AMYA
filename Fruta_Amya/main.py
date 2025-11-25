@@ -2,31 +2,32 @@ import pygame
 from juego import Juego
 from menu import Menu
 
-if __name__ == "__main__":
+def main():
     pygame.init()
     pantalla = pygame.display.set_mode((800, 600))
-    pygame.display.set_caption("Fruta Manía ")
-    
+    pygame.display.set_caption("Fruta Manía")
+
     menu = Menu(pantalla)
-    
-    while True:
-        opcion = menu.mostrar()
-        
+
+    ejecutando = True
+    while ejecutando:
+        opcion = menu.mostrar()   # Muestra el menú y devuelve la opción
+
         if opcion == "jugar":
-            juego = Juego()
+            juego = Juego(pantalla)
             juego.iniciar()
-        
+
         elif opcion == "records":
-            resultado = menu.mostrar_records()
-            if resultado == "salir":
-                break
-        
+            menu.mostrar_records()  # Regresa al menú automáticamente
+
         elif opcion == "controles":
-            resultado = menu.mostrar_controles()
-            if resultado == "salir":
-                break
-        
+            menu.mostrar_controles()  # Regresa al menú automáticamente
+
         elif opcion == "salir":
-            break
-    
+            ejecutando = False
+
     pygame.quit()
+
+
+if __name__ == "__main__":
+    main()
