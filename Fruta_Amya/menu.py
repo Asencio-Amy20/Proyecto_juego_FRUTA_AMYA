@@ -6,7 +6,7 @@ class Menu:
         self.pantalla = pantalla
         self.fuente_titulo = pygame.font.Font(None, 80)
         self.fuente_boton = pygame.font.Font(None, 50)
-        self.fuente_pequeña = pygame.font.Font(None, 30)
+        self.fuente_pequeña = pygame.font.Font(None, 20)
         
         self.color_fondo = (34, 139, 34)  # Verde oscuro
         self.color_titulo = (255, 255, 100)  # Amarillo
